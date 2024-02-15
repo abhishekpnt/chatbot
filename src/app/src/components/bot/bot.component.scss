@@ -53,6 +53,8 @@
     position: fixed;
     bottom: 3rem;
     right: 3rem;
+    height: 52px;
+    width: 52px;
     
     ion-button {
         margin: 0;
@@ -158,10 +160,10 @@
 
 }
 .end{
-    border: 2px solid red;
+   // border: 2px solid #fa5f5f;
 }
  .round {
-	 background: red;
+	 background: #fa5f5f;
 	 width: 8px;
 	 height: 8px;
 	 border-radius: 50%;
@@ -201,3 +203,32 @@
 		 transform: translatey(0%);
 	}
 }
+.circle {
+    position: absolute;
+    height: 54px;
+    width: 54px;
+    left: -6px;
+    top: -6px;
+  }
+  .circle__spinner {
+    height: 60px;
+    
+    & .path {
+      stroke: #fa5f5f;
+      stroke-linecap: round;
+      animation: dash 2s linear infinite;
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    
+    100% {
+      stroke-dasharray: 130, 150;
+      stroke-dashoffset: 0;
+    }
+  }
+  

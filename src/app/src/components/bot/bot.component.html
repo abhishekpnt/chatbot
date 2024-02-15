@@ -36,6 +36,11 @@
         </button>
         <button *ngIf="isRecording"  fill="clear" size="small" (pointerdown)="stopRecording()">
         <!-- <img   aria-hidden="true" class="audio-record-mic right icon end" src="assets/icons/stop-recording.svg"> -->
+        <div class="circle">
+          <svg class="circle__spinner" viewBox="0 0 50 50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#93bfec" stroke-width="2"></circle>
+          </svg>
+        </div>
         <div class="recording audio-record-mic right icon end">
           <div class="round"></div>
           <div class="round"></div>
