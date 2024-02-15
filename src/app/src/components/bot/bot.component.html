@@ -1,0 +1,44 @@
+<div id="content"  >
+    <div class="bot-content" *ngIf="botMessages.length > 0">
+      <div *ngFor="let msg of botMessages; let i = index">
+        <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? 'msg-block': ''">
+          <div class="text_msg" *ngIf="msg?.messageType !== 'audio'" >
+            <div><button class="speaker"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
+            <div>{{msg?.displayMsg  }}</div>
+            </div>
+          <!-- <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p> -->
+            <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" >
+              <div><button class="speaker" (click)="playAudio()"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
+              <div>{{msg?.displayMsg  }}</div>
+        </div>
+        <!-- <div *ngIf="msg?.type === 'received' && i !== 0 && msg.timeStamp && !msg?.audio?.file && msg.message !== 'An unknown error occured, please try after sometime'" class="action-div">
+          <div class="action_button" (click)="msgLiked(msg, 'like')">
+            <button class="like" aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!msg.likeMsg"></button>
+            <button aria-hidden="true" src="assets/icon/like.svg" *ngIf="msg.likeMsg"></button>
+          </div>
+          <div class="action_button unlike" (click)="msgLiked(msg, 'dislike')">
+            <button class="like" aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!msg.dislikeMsg"></button>
+            <button aria-hidden="true" src="assets/icon/dislike.svg" *ngIf="msg.dislikeMsg"></button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="bot-input">
+      <!-- <input *ngIf="!startRecording" [disabled]="disabled" aria-label="" value="" [placeholder]="'Type here' " (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"> -->
+      <!-- <div class="input_record" *ngIf="startRecording">
+        <button aria-hidden="true" class="audio-record-mic on-record" name="mic"></button>
+        <p >{{durationDisplay}}</p>
+      </div> -->
+      <div #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
+        <!-- <p class="cancel-record" *ngIf="startRecording"><span>  {{'Swipe left to cancel'  }}</span></p> -->
+        <button *ngIf="!isRecording"  fill="clear" size="small" (pointerdown)="startRecording()">
+          <img   aria-hidden="true" class="audio-record-mic right icon start" src="assets/icons/bot-audio.svg">
+        </button>
+        <button *ngIf="isRecording"  fill="clear" size="small" (pointerdown)="stopRecording()">
+        <img   aria-hidden="true" class="audio-record-mic right icon end" src="assets/icons/bot-audio.svg">
+          </button>
+      </div>
+      <!-- <button *ngIf="textMessage.length > 0"  name="send" (click)="handleMessage()"></button> -->
+    </div>
+  </div>
+  

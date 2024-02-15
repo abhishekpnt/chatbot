@@ -1,0 +1,158 @@
+#content{
+    --padding-top: 0px;
+    height: 90%;
+}
+.bot-content{
+    padding: 1rem;
+    // height: calc(95vh - 4.875rem);
+    overflow: auto;
+    .msg-block {
+        margin-top: 1rem;
+    }
+    &__message{
+        display: flex;
+        line-height: normal;
+        letter-spacing: -0.3px;
+        background: var(--ion-color-primary-contrast);
+        padding: 1rem 1rem 10px 1rem;    
+        max-width: 80%;
+        position: relative;
+        width: fit-content;
+        box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.05);
+        white-space: pre-line;
+        ion-button {
+            display: flex;
+        }
+        .time{
+            color: rgba(0, 0, 0, 0.25);
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.688rem;
+            letter-spacing: 0.031rem;
+            padding-top: 0.25rem;
+        }
+        &.received{
+            background-color: skyblue ;
+            border-radius: 1rem 1rem 1rem 0px;
+        }
+        &.sent{
+            background: #DCF7C5;
+            margin-left:auto;
+            border-radius: 1rem 1rem 0px 1rem;
+        }
+    }
+}
+.bot-input{
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    bottom: 0;
+    width: 98%;
+    padding: 1rem;
+    background: var(--ion-color-primary-contrast);
+    box-shadow: 0px -0.33px 0px 0px #A6A6AA;
+    display: flex;
+    align-items: center;
+    ion-input{
+        width: 90%;
+    }
+    ion-button {
+        margin: 0;
+    }
+    .input_record{
+        width: 30%;
+        display: flex;
+        align-items: center;
+        ion-label {
+            margin-left: 1rem;
+        }
+    }
+    .cancel-div{
+        display: flex;
+        width: 100%;
+        margin-left: 1rem;
+        align-items: center;
+    }
+    .cancel-record {
+        width: 90%;
+    }
+    .audio-record-mic{
+        width: 1.75rem;
+        height: 1.75rem;
+        fill: var(--ion-color-medium);
+    }
+    .on-record{
+        fill: var(--ion-color-primary) !important;
+    }
+    .sc-ion-input-md-h{
+        height: 2.25rem;
+        min-height: auto;
+        padding: 0 0.5rem !important;
+        --border-color: gray;
+        caret-color: gray !important;
+        --highlight-color: gray !important;
+        --highlight-color-focused: gray !important;
+    }
+}
+
+.audio_msg {
+    display: flex;
+    background: #c6dfc6;
+    padding: 5px;
+    border-radius: 10px;
+    .play_audio{
+        display: flex;
+        flex-direction: column;
+        span {
+            font-size: 8px;
+            text-align: center;
+        }
+    }
+    .audio-wave {
+        padding-left: 5px;
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+    img{
+        width: 25px;
+    }
+}
+
+.action-div {
+    display: flex;
+    margin-bottom: 1rem;
+    margin-top: -0.6rem;
+    margin-left: 0.3rem;
+}
+
+.action_button {
+    padding: 0.1rem 0.5rem;
+    width: fit-content;
+    box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.05);
+    white-space: pre-line;
+    border-radius: 16px;
+    background: white;
+    border: 0.1px solid grey;
+    transform: scale(1);
+}
+
+.unlike {
+    transform: scale(-1);
+    margin-left: 0.75rem !important;
+}
+
+.speaker{
+    border-width: thick;
+    border-radius: 23px;
+    height: 4rem;
+}
+.start{
+    border: 5px solid green;
+
+}
+.end{
+    border: 5px solid red;
+
+}
