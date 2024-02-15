@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 // import { config } from '../environments/environments.prod';
 // import { TranslateService } from '@ngx-translate/core';
 // import { ApiService } from '.';
@@ -11,56 +14,46 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class BotApiService {
+  apiUrl = 'https://dev.aiassistant.sunbird.org/djp/v1/query';
 
   constructor(
-    // private apiService: ApiService,
+    private http: HttpClient
 
   ) { }
 
-  async getBotMessage(text: string, audio: string, botType: string, lang: any): Promise<any> {
+  getBotMessage(text: string, audio: string, botType: string, lang: any): Observable<any> {
     console.log('text ', text, text !== "");
     console.log('audio ', audio, audio !== "");
-    // let botApiPath = 'api/activitybot/v1/query';
-    // let req: any = {
-    //   input: {},
-    //   output: {
-    //     format: text ? "text" : "audio"
-    //   }
-    // }
-    // if (text !== "") {
-    //   req.input = {
-    //     language: lang,
-    //     text: text
-    //   }
-    // } else if (audio !== "") {
-    //   req.input = {
-    //     language: lang,
-    //     audio: audio
-    //   }
-    // }
-    // if (botType !== "story") {
-    //   req.input.audienceType = botType 
-    // }
-    // const apiRequest = new ApiRequest.Builder()
-    //   .withHost(config.api.BASE_URL)
-    //   .withPath(botApiPath)
-    //   .withType(ApiHttpRequestType.POST)
-    //   .withBearerToken(true)
-    //   .withBody(req)
-    //   .withLanguge(lang)
-    //   .build()
-    // return lastValueFrom(this.apiService.fetch(apiRequest).pipe(
-    //   map((response: ApiResponse) => {
-    //     return response;
-    //   }),
-    //   catchError((err) => {
-    //     throw err;
-    //   })
-    // ));
-  // }
+    let req: any = {
+      input: {},
+      output: {
+        format: text ? "text" : "audio"
+      }
+    }
+    
+    if (text !== "") {
+      req.input = {
+        language: lang,
+        text: text
+      }
+    } else if (audio !== "") {
+      req.input = {
+        language: lang,
+        audio: audio,
+        audienceType: 'parent'
+      }
+    }
 
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'x-request-id': '25345346'
+    });
+
+    return this.http.post<any>(this.apiUrl, req, { headers });
   }
 
-
- 
 }
+
+
+
