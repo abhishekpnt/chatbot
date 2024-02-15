@@ -1,10 +1,12 @@
 #content{
-    --padding-top: 0px;
-    height: 90%;
+    margin: 30px;
+    height: calc(100% - 92px);
+    background: #fff;
+    border-radius: 32px;
+    padding: 16px;
 }
 .bot-content{
-    padding: 1rem;
-    // height: calc(95vh - 4.875rem);
+    height: calc(100vh - 170px);
     overflow: auto;
     .msg-block {
         margin-top: 1rem;
@@ -14,12 +16,17 @@
         line-height: normal;
         letter-spacing: -0.3px;
         background: var(--ion-color-primary-contrast);
-        padding: 1rem 1rem 10px 1rem;    
+        padding: 1rem;    
         max-width: 80%;
         position: relative;
         width: fit-content;
         box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.05);
         white-space: pre-line;
+        .text_msg{
+            display: flex;
+            grid-gap: 12px;
+            align-items: center;
+        }
         ion-button {
             display: flex;
         }
@@ -33,29 +40,20 @@
         }
         &.received{
             background-color: skyblue ;
-            border-radius: 1rem 1rem 1rem 0px;
+            border-radius: 1rem;
         }
         &.sent{
             background: #DCF7C5;
             margin-left:auto;
-            border-radius: 1rem 1rem 0px 1rem;
+            border-radius: 1rem;
         }
     }
 }
 .bot-input{
     position: fixed;
-    display: flex;
-    justify-content: flex-end;
-    bottom: 0;
-    width: 98%;
-    padding: 1rem;
-    background: var(--ion-color-primary-contrast);
-    box-shadow: 0px -0.33px 0px 0px #A6A6AA;
-    display: flex;
-    align-items: center;
-    ion-input{
-        width: 90%;
-    }
+    bottom: 3rem;
+    right: 3rem;
+    
     ion-button {
         margin: 0;
     }
@@ -68,18 +66,23 @@
         }
     }
     .cancel-div{
-        display: flex;
-        width: 100%;
-        margin-left: 1rem;
-        align-items: center;
+        button{
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            background: none;
+        }
     }
     .cancel-record {
         width: 90%;
     }
     .audio-record-mic{
-        width: 1.75rem;
-        height: 1.75rem;
-        fill: var(--ion-color-medium);
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50px;
+        padding: 8px;
+        cursor: pointer;
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
     }
     .on-record{
         fill: var(--ion-color-primary) !important;
@@ -98,8 +101,10 @@
 .audio_msg {
     display: flex;
     background: #c6dfc6;
-    padding: 5px;
+    padding: 8px;
     border-radius: 10px;
+    grid-gap: 4px;
+    align-items: center;
     .play_audio{
         display: flex;
         flex-direction: column;
@@ -149,10 +154,50 @@
     height: 4rem;
 }
 .start{
-    border: 5px solid green;
+    border: 2px solid #198754;
 
 }
 .end{
-    border: 5px solid red;
+    border: 2px solid red;
+}
+ .round {
+	 background: red;
+	 width: 8px;
+	 height: 8px;
+	 border-radius: 50%;
+	 animation: recording 1s ease-in-out infinite;
+	 box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.15);
+}
+ .round:first-child {
+	 left: 20%;
+}
+ .round:nth-child(2) {
+	 animation-delay: 0.15s;
+}
+ .round:last-child {
+	 left: 80%;
+	 animation-delay: 0.3s;
+}
 
+.recording {
+    display: flex;
+    align-items: center;
+    grid-gap: 4px;
+    transition: all 0.3s 0s ease;
+}
+
+
+ @keyframes recording {
+	 0% {
+		 transform: translatey(0%);
+	}
+	 30% {
+		 transform: translatey(-30%);
+	}
+	 60% {
+		 transform: translatey(30%);
+	}
+	 90% {
+		 transform: translatey(0%);
+	}
 }

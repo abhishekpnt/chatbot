@@ -32,10 +32,15 @@
       <div #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
         <!-- <p class="cancel-record" *ngIf="startRecording"><span>  {{'Swipe left to cancel'  }}</span></p> -->
         <button *ngIf="!isRecording"  fill="clear" size="small" (pointerdown)="startRecording()">
-          <img   aria-hidden="true" class="audio-record-mic right icon start" src="assets/icons/bot-audio.svg">
+          <img   aria-hidden="true" class="audio-record-mic right icon start" src="assets/icons/start-recording.svg">
         </button>
         <button *ngIf="isRecording"  fill="clear" size="small" (pointerdown)="stopRecording()">
-        <img   aria-hidden="true" class="audio-record-mic right icon end" src="assets/icons/bot-audio.svg">
+        <!-- <img   aria-hidden="true" class="audio-record-mic right icon end" src="assets/icons/stop-recording.svg"> -->
+        <div class="recording audio-record-mic right icon end">
+          <div class="round"></div>
+          <div class="round"></div>
+          <div class="round"></div>
+        </div>
           </button>
       </div>
       <!-- <button *ngIf="textMessage.length > 0"  name="send" (click)="handleMessage()"></button> -->
