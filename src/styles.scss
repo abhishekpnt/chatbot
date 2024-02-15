@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    margin: 0;
+    background-image: url(../src/assets/bg-image.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    height: 100vh;
+}
