@@ -1,9 +1,8 @@
-<div id="content"  >
+<div class="main-container">
     <div class="bot-content" #content *ngIf="botMessages.length > 0">
       <div *ngFor="let msg of botMessages; let i = index">
-        <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? 'msg-block': ''">
+        <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? '': 'info-msg'">
           <div class="text_msg" *ngIf="msg?.messageType !== 'audio'" >
-            <!-- <div><button class="speaker"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div> -->
             <div>{{msg?.displayMsg  }}</div>
             <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
             </div>
@@ -12,44 +11,25 @@
               <div>{{msg?.displayMsg  }}</div>
               <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
         </div>
-        <!-- <div *ngIf="msg?.type === 'received' && i !== 0 && msg.timeStamp && !msg?.audio?.file && msg.message !== 'An unknown error occured, please try after sometime'" class="action-div">
-          <div class="action_button" (click)="msgLiked(msg, 'like')">
-            <button class="like" aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!msg.likeMsg"></button>
-            <button aria-hidden="true" src="assets/icon/like.svg" *ngIf="msg.likeMsg"></button>
-          </div>
-          <div class="action_button unlike" (click)="msgLiked(msg, 'dislike')">
-            <button class="like" aria-hidden="true" src="assets/icon/thumb-up.svg" *ngIf="!msg.dislikeMsg"></button>
-            <button aria-hidden="true" src="assets/icon/dislike.svg" *ngIf="msg.dislikeMsg"></button>
-          </div>
-        </div> -->
       </div>
     </div>
-    <div class="bot-input">
-      <!-- <input *ngIf="!startRecording" [disabled]="disabled" aria-label="" value="" [placeholder]="'Type here' " (keyup.enter)="handleMessage()" fill="outline" shape="round" [(ngModel)]="textMessage"> -->
-      <!-- <div class="input_record" *ngIf="startRecording">
-        <button aria-hidden="true" class="audio-record-mic on-record" name="mic"></button>
-        <p >{{durationDisplay}}</p>
-      </div> -->
+    <div class="bot-footer">
       <div #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
-        <!-- <p class="cancel-record" *ngIf="startRecording"><span>  {{'Swipe left to cancel'  }}</span></p> -->
-        <button *ngIf="!isRecording"  fill="clear" size="small" (pointerdown)="startRecording()">
-          <img   aria-hidden="true" class="audio-record-mic right icon start" src="assets/icons/start-recording.svg">
+        <button *ngIf="!isRecording" fill="clear" size="small" (pointerdown)="startRecording()">
+          <img aria-hidden="true" class="audio-record-mic start" src="assets/icons/start-recording.svg">
         </button>
-        <button *ngIf="isRecording"  fill="clear" size="small" (pointerdown)="stopRecording()">
-        <!-- <img   aria-hidden="true" class="audio-record-mic right icon end" src="assets/icons/stop-recording.svg"> -->
-        <div class="circle">
-          <svg class="circle__spinner" viewBox="0 0 50 50">
-            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#93bfec" stroke-width="2"></circle>
-          </svg>
-        </div>
-        <div class="recording audio-record-mic right icon end">
-          <div class="round"></div>
-          <div class="round"></div>
-          <div class="round"></div>
-        </div>
-          </button>
+        <button *ngIf="isRecording" fill="clear" size="small" (pointerdown)="stopRecording()">
+          <div class="circle">
+            <svg class="circle__spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#93bfec" stroke-width="2"></circle>
+            </svg>
+          </div>
+          <div class="recording audio-record-mic">
+            <div class="round"></div>
+            <div class="round"></div>
+            <div class="round"></div>
+          </div>
+        </button>
       </div>
-      <!-- <button *ngIf="textMessage.length > 0"  name="send" (click)="handleMessage()"></button> -->
     </div>
   </div>
-  
