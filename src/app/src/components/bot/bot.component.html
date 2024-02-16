@@ -5,11 +5,12 @@
           <div class="text_msg" *ngIf="msg?.messageType !== 'audio'" >
             <!-- <div><button class="speaker"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div> -->
             <div>{{msg?.displayMsg  }}</div>
+            <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
             </div>
-          <!-- <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p> -->
             <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" >
               <div><button class="speaker" (click)="playAudio(i)"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
               <div>{{msg?.displayMsg  }}</div>
+              <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
         </div>
         <!-- <div *ngIf="msg?.type === 'received' && i !== 0 && msg.timeStamp && !msg?.audio?.file && msg.message !== 'An unknown error occured, please try after sometime'" class="action-div">
           <div class="action_button" (click)="msgLiked(msg, 'like')">

@@ -65,7 +65,12 @@ export class BotComponent implements OnInit, AfterViewInit {
     this.chat.audio = { base64Data: this.data.base64Data };
     this.chat.timeStamp = Date.now();
     this.botMessages.push(this.chat);
+    let fetchMsg = { identifier: "", message: 'Fetching...', messageType: 'text', type: 'received', displayMsg: "Fetching...", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+    this.botMessages.push(fetchMsg);
     this.scrollToBottom();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 500)
     await this.makeBotAPICall('', this.chat.audio.base64Data.replace(/^data:audio\/wav;base64,/, ''));
   }
 
@@ -88,6 +93,7 @@ export class BotComponent implements OnInit, AfterViewInit {
             audioMsg.displayMsg = data.output?.text
             // this.ngZone.run(() => {
             console.log('audio recieved', audioMsg.audio)
+            this.botMessages.pop();
             this.botMessages.push(audioMsg);
             // this.saveChatMessage(audioMsg);
             console.log('array', this.botMessages)
@@ -97,6 +103,7 @@ export class BotComponent implements OnInit, AfterViewInit {
             }, 500)
           } else {
             let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+            this.botMessages.pop();
             this.botMessages.push(errorMsg);
             this.scrollToBottom();
             setTimeout(() => {
@@ -110,6 +117,7 @@ export class BotComponent implements OnInit, AfterViewInit {
           this.disabled = false;
           console.log('catch error ', e);
           let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+          this.botMessages.pop();
           this.botMessages.push(errorMsg);
           this.scrollToBottom();
           setTimeout(() => {
@@ -160,7 +168,11 @@ export class BotComponent implements OnInit, AfterViewInit {
 
   scrollToBottom(): void {
     if (this.content) {
-      this.content.nativeElement.scrollTop = this.content.nativeElement.scrollHeight;
+      const contentElement = this.content.nativeElement;
+      contentElement.scrollTo({
+        top: contentElement.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }
 }
