@@ -22,8 +22,8 @@ export class BotApiService {
   ) { }
 
   getBotMessage(text: string, audio: string, botType: string, lang: any): Observable<any> {
-    console.log('text ', text, text !== "");
-    console.log('audio ', audio, audio !== "");
+    // console.log('text ', text, text !== "");
+    // console.log('audio ', audio, audio !== "");
     let req: any = {
       input: {},
       output: {

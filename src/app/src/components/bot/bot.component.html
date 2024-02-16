@@ -1,9 +1,9 @@
-<div id="content"  #content>
-    <div class="bot-content" *ngIf="botMessages.length > 0">
+<div id="content"  >
+    <div class="bot-content" #content *ngIf="botMessages.length > 0">
       <div *ngFor="let msg of botMessages; let i = index">
         <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? 'msg-block': ''">
           <div class="text_msg" *ngIf="msg?.messageType !== 'audio'" >
-            <div><button class="speaker"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
+            <!-- <div><button class="speaker"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div> -->
             <div>{{msg?.displayMsg  }}</div>
             </div>
           <!-- <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p> -->
