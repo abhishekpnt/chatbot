@@ -9,11 +9,11 @@
         height: calc(100vh - 2rem);
     }
     .bot-content {
-        height: calc(100vh - 170px);
+        height: calc(100vh - 220px);
         overflow: auto;
         padding: 1rem;
         @media (max-width: 1024px){
-            height: calc(100vh - 150px);
+            height: calc(100vh - 170px);
         }
         &__message {
             display: flex;
@@ -68,10 +68,31 @@
 
 .bot-footer {
     position: fixed;
-    bottom: 3rem;
+    bottom: 2rem;
+    @media (max-width: 1024px){
+        bottom: 1rem;
+    }
 .bee-image{
+    width: 100px;
+    @media (max-width: 1024px){
+        width: 75px;
+    }
     img{
-        width: 70%;
+        width: 100%;
+    }
+}
+.user-image{
+    position: fixed;
+    width: 55px;
+    right: 7rem;
+    bottom: 3rem;
+    @media (max-width: 1024px){
+        bottom: 2rem;
+        right: 6rem;
+        width: 45px;
+    }
+    img{
+        width: 100%;
     }
 }
 
