@@ -8,3 +8,8 @@ body{
     overflow: hidden;
     height: 100vh;
 }
+.bot-content::-webkit-scrollbar {
+    width: 0;               /* width of the entire scrollbar */
+  }
+  
+ 
