@@ -90,7 +90,7 @@ export class BotComponent implements OnInit, AfterViewInit {
             let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
             audioMsg.audio = { file: data.output?.audio, duration: '10', play: false }
             audioMsg.messageType = 'audio';
-            audioMsg.displayMsg = data.output?.text
+            // audioMsg.displayMsg = data.output?.text
             // this.ngZone.run(() => {
             console.log('audio recieved', audioMsg.audio)
             this.botMessages.pop();

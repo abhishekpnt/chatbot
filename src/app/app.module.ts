@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AudioRecordingService } from './src/services/audio-recording.service';
 import { BotComponent } from './src/components/bot/bot.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SessionService } from './src/services/session.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [AudioRecordingService],
+  providers: [AudioRecordingService,SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

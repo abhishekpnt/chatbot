@@ -1,36 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-// import { config } from '../environments/environments.prod';
-// import { TranslateService } from '@ngx-translate/core';
-// import { ApiService } from '.';
-// import { ApiHttpRequestType, ApiRequest } from './api/model/api.request';
-// import { catchError, lastValueFrom, map, tap } from 'rxjs';
-// import { ApiResponse } from './api/model/api.response';
-
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BotApiService {
-  apiUrl = 'https://dev.aiassistant.sunbird.org/djp/v1/query';
+  apiUrl = 'https://dev.aiassistant.sunbird.org/all_bot/v1/learn_language';
 
   constructor(
-    private http: HttpClient
-
+    private http: HttpClient,
+    private sessionService: SessionService
   ) { }
 
   getBotMessage(text: string, audio: string, botType: string, lang: any): Observable<any> {
     // console.log('text ', text, text !== "");
     // console.log('audio ', audio, audio !== "");
+
+    // If session ID is not available (e.g., session expired), generate a new one
+    if (!this.sessionService.getSessionId()) {
+      this.sessionService.generateSessionId();
+    }
+
+    // Get session ID again
+    const sessionId = this.sessionService.getSessionId();
+
+    console.log('----ssid', sessionId)
     let req: any = {
       input: {},
       output: {
         format: text ? "text" : "audio"
       }
     }
-    
+
     if (text !== "") {
       req.input = {
         language: lang,
@@ -38,21 +41,19 @@ export class BotApiService {
       }
     } else if (audio !== "") {
       req.input = {
-        language: lang,
+        language: 'ta',
         audio: audio,
-        audienceType: 'parent'
+        session_id: sessionId
       }
     }
 
     const headers = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'x-request-id': '25345346'
     });
 
     return this.http.post<any>(this.apiUrl, req, { headers });
   }
-
 }
 
 
