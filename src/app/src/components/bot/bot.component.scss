@@ -47,14 +47,14 @@
             &.received {
                 background-color: lightseagreen;
                 color: #fff;
-                border-radius: 1rem;
+                border-radius: 2rem 2rem 2rem 0;
             }
 
             &.sent {
                 background: lightcoral;
                 color: #fff;
                 margin-left: auto;
-                border-radius: 1rem;
+                border-radius: 2rem 2rem 0 2rem;
             }
         }
 
