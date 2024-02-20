@@ -40,7 +40,7 @@ export class BotComponent implements OnInit, AfterViewInit {
   ) {
     this.defaultLoaderMsg = { identifier: "", message: 'Loading...', messageType: 'text', displayMsg: 'Loading...', type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
     this.botMessages = [
-      { identifier: "", message: 'Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button \n What is your name?', messageType: 'text', type: 'received', displayMsg: "Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button \n What is your name?", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
+      { identifier: "", message: 'Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button', messageType: 'text', type: 'received', displayMsg: "Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
   }
 
   ngOnInit() {
