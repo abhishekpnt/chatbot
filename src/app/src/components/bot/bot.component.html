@@ -8,7 +8,7 @@
             </div>
             <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" >
               <div><button class="speaker" (click)="playAudio(i)"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
-              <!-- <div>{{msg?.displayMsg  }}</div> -->
+              <div>{{msg?.displayMsg  }}</div>
               <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
         </div>
       </div>

@@ -90,12 +90,11 @@ export class BotComponent implements OnInit, AfterViewInit {
             let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
             audioMsg.audio = { file: data.output?.audio, duration: '10', play: false }
             audioMsg.messageType = 'audio';
-            // audioMsg.displayMsg = data.output?.text
-            // this.ngZone.run(() => {
+            audioMsg.displayMsg = data.output?.text
             console.log('audio recieved', audioMsg.audio)
             this.botMessages.pop();
             this.botMessages.push(audioMsg);
-            // this.saveChatMessage(audioMsg);
+            this.playAudio(this.botMessages.length-1)
             console.log('array', this.botMessages)
             this.scrollToBottom();
             setTimeout(() => {
@@ -156,9 +155,9 @@ export class BotComponent implements OnInit, AfterViewInit {
   playAudio(index) {
     if (!this.isPlaying) {
       this.audio.src = this.botMessages[index].audio.file ? this.botMessages[index].audio.file : this.botMessages[index].audio.base64Data;
-
-      this.audio.play();
       this.isPlaying = true
+      this.audio.play();
+      this.isPlaying = false
     }
     else {
       this.audio.pause();
