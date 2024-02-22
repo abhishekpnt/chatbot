@@ -1,24 +1,25 @@
 <div class="main-container">
-    <div class="bot-content" #content *ngIf="botMessages.length > 0">
-      <div *ngFor="let msg of botMessages; let i = index">
-        <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? '': 'info-msg'">
-          <div class="text_msg" *ngIf="msg?.messageType !== 'audio'" >
-            <div>{{msg?.displayMsg  }}</div>
-            <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
-            </div>
-            <div class="audio_msg" *ngIf="msg?.messageType == 'audio'" >
-              <div><button class="speaker" (click)="playAudio(i)"> <img aria-hidden="true" class="audio-record-mic right icon" width="32px"  src="assets/icons/speaker.svg"></button></div>
-              <div>{{msg?.displayMsg  }}</div>
-              <p class="time" *ngIf="msg?.time" >{{msg?.time}}</p>
+  <div class="power" (click)="logout()"> <img aria-hidden="true" class="power right icon" width="32px"
+      src="assets/icons/power.svg"></div>
+
+  <div class="bot-content" #content *ngIf="botMessages.length > 0">
+    <div *ngFor="let msg of botMessages; let i = index">
+      <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? '': 'info-msg'">
+        <div class="text_msg" *ngIf="msg?.messageType !== 'audio'">
+          <div>{{msg?.displayMsg }}</div>
+          <p class="time" *ngIf="msg?.time">{{msg?.time}}</p>
+        </div>
+        <div class="audio_msg" *ngIf="msg?.messageType == 'audio'">
+          <div><button class="speaker" (click)="playAudio(i)"> <img aria-hidden="true"
+                class="audio-record-mic right icon" width="32px" src="assets/icons/speaker.svg"></button></div>
+          <div>{{msg?.displayMsg }}</div>
+          <p class="time" *ngIf="msg?.time">{{msg?.time}}</p>
         </div>
       </div>
     </div>
     <div class="bot-footer">
       <div class="bee-image">
         <img aria-hidden="true" class="" src="assets/bee-pic.png">
-      </div>
-      <div class="user-image">
-        <img aria-hidden="true" class="" src="assets/user-pic.png">
       </div>
       <div #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
         <button *ngIf="!isRecording" fill="clear" size="small" (pointerdown)="startRecording()">
@@ -36,6 +37,9 @@
             <div class="round"></div>
           </div>
         </button>
+      </div>
+      <div class="user-image">
+        <img aria-hidden="true" class="" src="assets/user-pic.png">
       </div>
     </div>
   </div>

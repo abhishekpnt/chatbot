@@ -1,0 +1,22 @@
+.authentication-card {
+    width: 30%;
+    margin: 0 auto;
+    position: fixed;
+    left: 35%;
+    top: 29%;
+}
+
+.authentication-card-container {
+    min-height: 100vh;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+mat-card-actions,mat-card-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

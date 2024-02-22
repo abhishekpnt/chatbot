@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { BotMessage } from 'src/app/appConstants';
 import { AudioRecordingService } from 'src/app/src/services/audio-recording.service';
 import { BotApiService } from '../../services/bot-api.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'bot-component',
@@ -36,7 +37,7 @@ export class BotComponent implements OnInit, AfterViewInit {
   audio = new Audio();
   constructor(
     private audioRecordingService: AudioRecordingService, private botApiService: BotApiService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer, private loginService: LoginService
   ) {
     this.defaultLoaderMsg = { identifier: "", message: 'Loading...', messageType: 'text', displayMsg: 'Loading...', type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
     this.botMessages = [
@@ -84,7 +85,7 @@ export class BotComponent implements OnInit, AfterViewInit {
       next: result => {
         console.log('-----', result)
         this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-                if (result.output) {
+        if (result.output) {
           let data = result;
           if (data?.output?.audio) {
             let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
@@ -94,7 +95,7 @@ export class BotComponent implements OnInit, AfterViewInit {
             console.log('audio recieved', audioMsg.audio)
             this.botMessages.pop();
             this.botMessages.push(audioMsg);
-            this.playAudio(this.botMessages.length-1)
+            this.playAudio(this.botMessages.length - 1)
             console.log('array', this.botMessages)
             this.scrollToBottom();
             setTimeout(() => {
@@ -111,19 +112,19 @@ export class BotComponent implements OnInit, AfterViewInit {
             this.disabled = false;
           }
         }
-        },
-        error: e => {
-          this.disabled = false;
-          console.log('catch error ', e);
-          let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
-          this.botMessages.pop();
-          this.botMessages.push(errorMsg);
+      },
+      error: e => {
+        this.disabled = false;
+        console.log('catch error ', e);
+        let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+        this.botMessages.pop();
+        this.botMessages.push(errorMsg);
+        this.scrollToBottom();
+        setTimeout(() => {
           this.scrollToBottom();
-          setTimeout(() => {
-            this.scrollToBottom();
-          }, 500)
-        }
-       } );
+        }, 500)
+      }
+    });
   }
 
 
@@ -173,5 +174,9 @@ export class BotComponent implements OnInit, AfterViewInit {
         behavior: 'smooth'
       });
     }
+  }
+
+  logout() {
+    this.loginService.logout();
   }
 }
