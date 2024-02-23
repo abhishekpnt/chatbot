@@ -154,15 +154,21 @@ export class BotComponent implements OnInit, AfterViewInit {
   }
 
   playAudio(index) {
-    if (!this.isPlaying) {
+    if (!this.isPlaying || this.audio.src !== this.botMessages[index].audio.file) {
       this.audio.src = this.botMessages[index].audio.file ? this.botMessages[index].audio.file : this.botMessages[index].audio.base64Data;
-      this.isPlaying = true
       this.audio.play();
-      this.isPlaying = false
-    }
-    else {
-      this.audio.pause();
-      this.isPlaying = false
+      this.isPlaying = true;
+      this.audio.addEventListener('ended', () => {
+        this.isPlaying = false;
+      });
+    } else {
+      if (this.isPlaying) {
+        this.audio.pause();
+        this.isPlaying = false;
+      } else {
+        this.audio.play();
+        this.isPlaying = true;
+      }
     }
   }
 
