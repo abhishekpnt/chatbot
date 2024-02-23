@@ -2,21 +2,20 @@
     margin: 2rem;
     background: #fff;
     border-radius: 2rem;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 7rem);
+    padding-top: 3rem;
 
-    @media (max-width: 1023px) {
-        margin: 1rem;
-        height: calc(100vh - 2rem);
+    .power {
+        position: fixed;
+        right: 3rem;
+        top: 3rem;
+        cursor: pointer;
     }
 
     .bot-content {
-        height: calc(100vh - 220px);
+        height: calc(100vh - 260px);
         overflow: auto;
-        padding: 1rem;
-
-        @media (max-width: 1023px) {
-            height: calc(100vh - 170px);
-        }
+        padding: 0 1rem 1rem 1rem;
 
         &__message {
             display: flex;
@@ -56,135 +55,132 @@
                 margin-left: auto;
                 border-radius: 2rem 2rem 0 2rem;
             }
+
             &.info-msg {
                 margin: 0;
             }
+
+            .audio_msg {
+                display: flex;
+
+                border-radius: 10px;
+                grid-gap: 4px;
+                align-items: center;
+                margin-bottom: 0.5rem;
+
+                img {
+                    width: 25px;
+                }
+
+                .speaker {
+                    border-width: thick;
+                    border-radius: 23px;
+                    height: 3rem;
+                }
+            }
         }
-    }
-}
 
-.bot-footer {
-    position: fixed;
-    bottom: 2rem;
-
-    @media (max-width: 1023px) {
-        bottom: 1rem;
-    }
-
-    .bee-image {
-        width: 100px;
-
-        @media (max-width: 1023px) {
-            width: 65px;
-        }
-
-        img {
-            width: 100%;
-        }
-    }
-
-    .user-image {
-        position: fixed;
-        width: 55px;
-        right: 3rem;
-        bottom: 3rem;
-
-        @media (max-width: 1023px) {
+        .bot-footer {
+            position: fixed;
             bottom: 2rem;
-            right: 2rem;
-            width: 40px;
-        }
 
-        img {
-            width: 100%;
+            .bee-image {
+                width: 100px;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .user-image {
+                position: fixed;
+                width: 55px;
+                right: 3rem;
+                bottom: 3rem;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+
+            .cancel-div {
+                position: fixed;
+                right: 8rem;
+                bottom: 3rem;
+                height: 84px;
+                width: 84px;
+
+                button {
+                    border: none;
+                    box-shadow: none;
+                    padding: 0;
+                    background: none;
+
+                    .circle {
+                        position: absolute;
+                        left: -7px;
+                        top: -6px;
+                        cursor: pointer;
+                    }
+
+                    .circle__spinner {
+                        height: 5.8rem;
+
+                        & .path {
+                            stroke: #fa5f5f;
+                            stroke-linecap: round;
+                            animation: dash 2s linear infinite;
+                        }
+                    }
+                }
+            }
+
+            .audio-record-mic {
+                display: flex;
+                justify-content: center;
+                width: 4rem;
+                height: 4rem;
+                border-radius: 50px;
+                padding: 8px;
+                cursor: pointer;
+                box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+
+                &.start {
+                    border: 2px solid #198754;
+                }
+
+                &.recording {
+                    display: flex;
+                    align-items: center;
+                    grid-gap: 4px;
+                    transition: all 0.3s 0s ease;
+
+                    .round {
+                        background: #fa5f5f;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        animation: recording 1s ease-in-out infinite;
+                        box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.15);
+
+                        &:first-child {
+                            left: 20%;
+                        }
+
+                        &:nth-child(2) {
+                            animation-delay: 0.15s;
+                        }
+
+                        &:last-child {
+                            left: 80%;
+                            animation-delay: 0.3s;
+                        }
+                    }
+                }
+            }
         }
     }
-
-
-    .cancel-div {
-        position: fixed;
-        right: 8rem;
-        bottom: 3rem;
-
-        @media (max-width: 1023px) {
-            right: 6rem;
-            bottom: 2rem;
-        }
-
-        button {
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            background: none;
-        }
-    }
-
-    .audio-record-mic {
-        display: flex;
-        justify-content: center;
-        width: 4rem;
-        height: 4rem;
-        border-radius: 50px;
-        padding: 8px;
-        cursor: pointer;
-        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
-
-        @media (max-width: 1023px) {
-            height: 3rem;
-            width: 3rem;
-        }
-    }
-}
-
-.audio_msg {
-    display: flex;
-
-    border-radius: 10px;
-    grid-gap: 4px;
-    align-items: center;
-    margin-bottom: 0.5rem;
-
-    img {
-        width: 25px;
-    }
-}
-
-
-.speaker {
-    border-width: thick;
-    border-radius: 23px;
-    height: 3rem;
-}
-
-.start {
-    border: 2px solid #198754;
-
-}
-
-.round {
-	background: #fa5f5f;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	animation: recording 1s ease-in-out infinite;
-	box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.15);
-	&:first-child {
-		left: 20%;
-	}
-	&:nth-child(2) {
-		animation-delay: 0.15s;
-	}
-	&:last-child {
-		left: 80%;
-		animation-delay: 0.3s;
-	}
-}
-
-.recording {
-    display: flex;
-    align-items: center;
-    grid-gap: 4px;
-    transition: all 0.3s 0s ease;
 }
 
 
@@ -206,26 +202,7 @@
     }
 }
 
-.circle {
-    position: absolute;
-    left: -7px;
-    top: -6px;
-    cursor: pointer;
-}
 
-.circle__spinner {
-    height: 5.8rem;
-
-    @media (max-width: 1023px) {
-        height: 5rem;
-    }
-
-    & .path {
-        stroke: #fa5f5f;
-        stroke-linecap: round;
-        animation: dash 2s linear infinite;
-    }
-}
 
 @keyframes dash {
     0% {
@@ -239,13 +216,64 @@
     }
 }
 
-.power {
-    position: fixed;
-    right: 2.5rem;
-    top: 2.5rem;
-    cursor: pointer;
-    @media (max-width: 1023px) {
-        right: 1.5rem;
-        top: 1.5rem;
+
+
+//mobile and tab styles
+@media screen and (max-width: 1023px) {
+    .main-container {
+        margin: 1rem;
+        height: calc(100vh - 4.5rem);
+        border-radius: 1rem;
+        padding-top: 2.5rem;
+        .power {
+            right: 1.5rem;
+            top: 1.5rem;
+        }
+        .bot-content {
+            height: calc(100vh - 182px);
+
+            &__message {
+
+                &.received {
+                    border-radius: 1rem 1rem 1rem 0;
+                }
+
+                &.sent {
+                    border-radius: 1rem 1rem 0 1rem;
+
+                }
+            }
+
+            .bot-footer {
+                bottom: 1rem;
+
+                .bee-image {
+                    width: 65px;
+                }
+
+                .user-image {
+                    bottom: 2rem;
+                    right: 2rem;
+                    width: 40px;
+                }
+
+                .cancel-div {
+                    right: 6rem;
+                    bottom: 2rem;
+                    height: 68px;
+                    width: 68px;
+                    button{
+                        .circle__spinner {
+                            height: 5rem;
+                        }
+                    }
+                }
+
+                .audio-record-mic {
+                    height: 3rem;
+                    width: 3rem;
+                }
+            }
+        }
     }
 }
