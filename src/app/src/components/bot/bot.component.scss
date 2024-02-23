@@ -22,7 +22,7 @@
             display: flex;
             line-height: normal;
             letter-spacing: -0.3px;
-            background: var(--ion-color-primary-contrast);
+            color: #fff;
             padding: 1rem;
             margin-top: 1rem;
             max-width: 80%;
@@ -34,7 +34,7 @@
             .text_msg {
                 display: flex;
                 grid-gap: 12px;
-                margin-bottom: 0.5rem;
+                margin-bottom: 1rem;
                 align-items: center;
             }
 
@@ -44,27 +44,21 @@
                 right: 16px;
                 font-size: 0.688rem;
                 letter-spacing: 0.031rem;
-                padding-top: 0.25rem;
             }
 
             &.received {
                 background-color: lightseagreen;
-                color: #fff;
                 border-radius: 2rem 2rem 2rem 0;
             }
 
             &.sent {
                 background: lightcoral;
-                color: #fff;
                 margin-left: auto;
                 border-radius: 2rem 2rem 0 2rem;
             }
-        }
-
-        .info-msg {
-            background: lightseagreen;
-            color: #fff;
-            margin: 0;
+            &.info-msg {
+                margin: 0;
+            }
         }
     }
 }
@@ -168,25 +162,22 @@
 }
 
 .round {
-    background: #fa5f5f;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    animation: recording 1s ease-in-out infinite;
-    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.15);
-}
-
-.round:first-child {
-    left: 20%;
-}
-
-.round:nth-child(2) {
-    animation-delay: 0.15s;
-}
-
-.round:last-child {
-    left: 80%;
-    animation-delay: 0.3s;
+	background: #fa5f5f;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	animation: recording 1s ease-in-out infinite;
+	box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.15);
+	&:first-child {
+		left: 20%;
+	}
+	&:nth-child(2) {
+		animation-delay: 0.15s;
+	}
+	&:last-child {
+		left: 80%;
+		animation-delay: 0.3s;
+	}
 }
 
 .recording {
@@ -219,6 +210,7 @@
     position: absolute;
     left: -7px;
     top: -6px;
+    cursor: pointer;
 }
 
 .circle__spinner {
@@ -249,6 +241,7 @@
 
 .power {
     position: fixed;
-    right: 3%;
-    top: 0%;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
 }
