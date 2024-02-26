@@ -39,8 +39,9 @@
 
             .time {
                 position: absolute;
-                bottom: 0;
-                right: 16px;
+                bottom: 1rem;
+                right: 1rem;
+                margin: 0;
                 font-size: 0.688rem;
                 letter-spacing: 0.031rem;
             }
@@ -62,9 +63,8 @@
 
             .audio_msg {
                 display: flex;
-
                 border-radius: 10px;
-                grid-gap: 4px;
+                grid-gap: 0.5rem;
                 align-items: center;
                 margin-bottom: 0.5rem;
 
@@ -76,6 +76,7 @@
                     border-width: thick;
                     border-radius: 23px;
                     height: 3rem;
+                    cursor: pointer;
                 }
             }
         }
@@ -125,12 +126,13 @@
                     }
 
                     .circle__spinner {
+                        animation: rotate 2s linear infinite;
                         height: 5.8rem;
 
                         & .path {
                             stroke: #fa5f5f;
                             stroke-linecap: round;
-                            animation: dash 2s linear infinite;
+                            animation: dash 1.5s ease-in-out infinite;
                         }
                     }
                 }
@@ -202,20 +204,27 @@
     }
 }
 
-
-
+@keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
 @keyframes dash {
     0% {
         stroke-dasharray: 1, 150;
         stroke-dashoffset: 0;
     }
-
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
     100% {
-        stroke-dasharray: 130, 150;
-        stroke-dashoffset: 0;
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
     }
 }
-
+  
 
 
 //mobile and tab styles

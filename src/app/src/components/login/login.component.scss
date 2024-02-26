@@ -1,13 +1,14 @@
 .authentication-card {
-    width: 30%;
+    width: 100%;
     margin: 0 auto;
-    position: fixed;
-    left: 35%;
-    top: 29%;
-    @media (max-width: 1023px) {
-        width: 75%;
-        left: 0;
-        right: 0;
+    border-radius: 1rem;
+    max-width: 360px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @media screen and (max-width: 1023px) {
+        max-width: 320px;
     }
 }
 
