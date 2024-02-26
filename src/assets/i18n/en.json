@@ -1,0 +1,7 @@
+{
+  "welcomeMessage": "Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button",
+  "fetchMessage": "Fetching...",
+  "clickToListen": "Click to Listen",
+  "selectYourLanguage":"Select your language",
+  "errorMessage":"An unknown error occured, please try after sometime"
+}

@@ -7,54 +7,41 @@ import { SessionService } from './session.service';
   providedIn: 'root'
 })
 export class BotApiService {
-  apiUrl = 'https://dev.aiassistant.sunbird.org/all_bot/v1/learn_language';
+  private readonly host = 'https://dev.aiassistant.sunbird.org/all_bot/v1/';
 
   constructor(
     private http: HttpClient,
     private sessionService: SessionService
   ) { }
 
-  getBotMessage(text: string, audio: string, botType: string, lang: any): Observable<any> {
-    // console.log('text ', text, text !== "");
-    // console.log('audio ', audio, audio !== "");
+  getBotMessage(text: string, audio: string, lang: any): Observable<any> {
+    const req: any = {
+      user_id: localStorage.getItem('token'),
+      language: lang,
+    };
 
-    // If session ID is not available (e.g., session expired), generate a new one
-    if (!this.sessionService.getSessionId()) {
-      this.sessionService.generateSessionId();
+    if (text) {
+      req.original_text = text;
     }
 
-    // Get session ID again
-    const sessionId = this.sessionService.getSessionId();
-
-    console.log('----ssid', sessionId)
-    let req: any = {
-      input: {},
-      output: {
-        format: text ? "text" : "audio"
-      }
+    if (audio) {
+      req.audio = audio;
     }
 
-    if (text !== "") {
-      req.input = {
-        language: lang,
-        text: text
-      }
-    } else if (audio !== "") {
-      req.input = {
-        language: 'ta',
-        audio: audio,
-        session_id: sessionId
-      }
+    if (localStorage.getItem('content_id')) {
+      req.content_id = localStorage.getItem('content_id');
+      const apiUrl = this.host + 'submit_response';
+      return this.http.post<any>(apiUrl, req, { headers: this.getHeaders() });
+    } else {
+      const apiUrl = this.host + 'get_content';
+      return this.http.post<any>(apiUrl, req, { headers: this.getHeaders() });
     }
+  }
 
-    const headers = new HttpHeaders({
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     });
-
-    return this.http.post<any>(this.apiUrl, req, { headers });
   }
 }
-
-
-

@@ -4,6 +4,9 @@ import { BotMessage } from 'src/app/appConstants';
 import { AudioRecordingService } from 'src/app/src/services/audio-recording.service';
 import { BotApiService } from '../../services/bot-api.service';
 import { LoginService } from '../../services/login.service';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilService } from '../../services/util.service';
+
 
 @Component({
   selector: 'bot-component',
@@ -14,7 +17,6 @@ export class BotComponent implements OnInit, AfterViewInit {
   botMessages: Array<any> = [];
   textMessage: string = ''
   chat!: BotMessage;
-  defaultLoaderMsg!: BotMessage;
   botStartTimeStamp = Date.now();
   public isUserSpeaking: boolean = false;
   isPlaying = false;
@@ -22,29 +24,31 @@ export class BotComponent implements OnInit, AfterViewInit {
   recordedTime;
   blobUrl;
   data;
+  selectedLanguage;
+  disabled = false;
+  audioRef!: HTMLAudioElement;
+  ngZone: any;
+  audio = new Audio();
 
   @Input() config: any = {};
   @Output() botMessageEvent = new EventEmitter();
   @ViewChild('recordbtn', { read: ElementRef }) recordbtn: ElementRef | any;
   @ViewChild('content', { static: false }) content: ElementRef;
 
-  navigated: boolean = false
-  duration = 0;
-  durationDisplay = '';
-  disabled = false;
-  audioRef!: HTMLAudioElement;
-  ngZone: any;
-  audio = new Audio();
   constructor(
     private audioRecordingService: AudioRecordingService, private botApiService: BotApiService,
-    private sanitizer: DomSanitizer, private loginService: LoginService
+    private sanitizer: DomSanitizer, private loginService: LoginService, private translate: TranslateService, public utils: UtilService
   ) {
-    this.defaultLoaderMsg = { identifier: "", message: 'Loading...', messageType: 'text', displayMsg: 'Loading...', type: 'received', time: '', timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
     this.botMessages = [
-      { identifier: "", message: 'Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button', messageType: 'text', type: 'received', displayMsg: "Hello!! I am Bee the Bot.\nYou can talk to me by pressing the mic button", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
-  }
+      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'text', type: 'received', displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
+
+      this.utils.removeItem('content_id');
+      this.utils.removeItem('text');  }
 
   ngOnInit() {
+    this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
+    this.selectedLanguage = this.utils.getLanguage();
+
     this.audioRecordingService.recordingFailed().subscribe(() => (this.isRecording = false));
     this.audioRecordingService.getRecordedTime().subscribe((time) => (this.recordedTime = time));
     this.audioRecordingService.getRecordedBlob().subscribe((data) => {
@@ -61,12 +65,11 @@ export class BotComponent implements OnInit, AfterViewInit {
   }
 
   async handleMessage() {
-    this.chat = { identifier: "", message: this.data.base64Data, audio: this.data.base64Data, messageType: 'audio', type: 'sent', displayMsg: "Click to View", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
-    this.chat = { identifier: "", message: '', messageType: 'audio', displayMsg: "Click to Listen", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
+    this.chat = { identifier: "clickToListen", message: 'clickToListen', messageType: 'audio', displayMsg: "clickToListen", audio: { file: '', duration: '', play: false }, type: 'sent', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
     this.chat.audio = { base64Data: this.data.base64Data };
     this.chat.timeStamp = Date.now();
     this.botMessages.push(this.chat);
-    let fetchMsg = { identifier: "", message: 'Fetching...', messageType: 'text', type: 'received', displayMsg: "Fetching...", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+    let fetchMsg = { identifier: "fetchMessage", message: 'fetchMessage', messageType: 'text', type: 'received', displayMsg: "fetchMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
     this.botMessages.push(fetchMsg);
     this.scrollToBottom();
     setTimeout(() => {
@@ -78,16 +81,19 @@ export class BotComponent implements OnInit, AfterViewInit {
   async makeBotAPICall(text: string, audio: string) {
     this.textMessage = "";
     this.disabled = true;
-    // Api call and response from bot, replace laoding text
+    // Api call and response from bot, replace loading text
     let index = this.botMessages.length;
-    // let lang = await this.storage.getData('lang');
-    await this.botApiService.getBotMessage(text, audio, this.config.type, 'en').subscribe({
+     let lang = await this.utils.getLanguage()
+     text=localStorage.getItem('text') ?? '';
+    await this.botApiService.getBotMessage(text, audio, lang).subscribe({
       next: result => {
         console.log('-----', result)
         this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
         if (result.output) {
           let data = result;
-          if (data?.output?.audio) {
+          this.utils.setItem('content_id',data.output.content_id);
+          this.utils.setItem('text',data.output.text);
+          if (data?.output?.audio!=="") {
             let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
             audioMsg.audio = { file: data.output?.audio, duration: '10', play: false }
             audioMsg.messageType = 'audio';
@@ -102,21 +108,25 @@ export class BotComponent implements OnInit, AfterViewInit {
               this.scrollToBottom();
             }, 500)
           } else {
-            let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+            let textMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
+            textMsg.message = data?.output?.text
+            textMsg.messageType = 'text';
+            textMsg.displayMsg = data.output?.text
+            console.log('text recieved', textMsg)
             this.botMessages.pop();
-            this.botMessages.push(errorMsg);
+            this.botMessages.push(textMsg);
+            console.log('array', this.botMessages)
             this.scrollToBottom();
             setTimeout(() => {
               this.scrollToBottom();
             }, 500)
-            this.disabled = false;
           }
         }
       },
       error: e => {
         this.disabled = false;
         console.log('catch error ', e);
-        let errorMsg = { identifier: "", message: 'An unknown error occured, please try after sometime', messageType: 'text', type: 'received', displayMsg: "An unknown error occured, please try after sometime", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
+        let errorMsg = { identifier: "", message: 'errorMessage', messageType: 'text', type: 'received', displayMsg: "errorMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" };
         this.botMessages.pop();
         this.botMessages.push(errorMsg);
         this.scrollToBottom();
@@ -184,5 +194,11 @@ export class BotComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.loginService.logout();
+  }
+
+
+  onLanguageChange() {
+    this.utils.setLanguage(this.selectedLanguage)
+    this.translate.use(this.utils.getLanguage());
   }
 }
