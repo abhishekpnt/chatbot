@@ -1,19 +1,25 @@
 .main-container {
     margin: 2rem;
-    background: #fff;
+    background: #E5EDF5;
     border-radius: 2rem;
-    height: calc(100vh - 7rem);
-    padding-top: 3rem;
+    height: calc(100vh - 8rem);
+    padding-top: 4rem;
 
-    .power {
+    .header {
         position: fixed;
         right: 3rem;
         top: 3rem;
-        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .power-btn{
+            cursor: pointer;
+            padding-top: 4px;
+        }
     }
 
     .bot-content {
-        height: calc(100vh - 260px);
+        height: calc(100vh - 270px);
         overflow: auto;
         padding: 0 1rem 1rem 1rem;
 
@@ -86,7 +92,7 @@
             bottom: 2rem;
 
             .bee-image {
-                width: 100px;
+                width: 90px;
 
                 img {
                     width: 100%;
@@ -231,15 +237,15 @@
 @media screen and (max-width: 1023px) {
     .main-container {
         margin: 1rem;
-        height: calc(100vh - 4.5rem);
+        height: calc(100vh - 5.5rem);
         border-radius: 1rem;
-        padding-top: 2.5rem;
-        .power {
+        padding-top: 3.5rem;
+        .header {
             right: 1.5rem;
             top: 1.5rem;
         }
         .bot-content {
-            height: calc(100vh - 182px);
+            height: calc(100vh - 200px);
 
             &__message {
 
