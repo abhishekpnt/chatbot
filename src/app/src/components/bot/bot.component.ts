@@ -47,7 +47,7 @@ export class BotComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
-    this.selectedLanguage = this.utils.getLanguage();
+    this.selectedLanguage = this.utils.getLanguage()||'en';
 
     this.audioRecordingService.recordingFailed().subscribe(() => (this.isRecording = false));
     this.audioRecordingService.getRecordedTime().subscribe((time) => (this.recordedTime = time));
