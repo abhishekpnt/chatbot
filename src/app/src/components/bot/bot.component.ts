@@ -51,13 +51,13 @@ export class BotComponent implements OnInit, AfterViewInit {
 
     this.audioRecordingService.recordingFailed().subscribe(() => (this.isRecording = false));
     this.audioRecordingService.getRecordedTime().subscribe((time) => (this.recordedTime = time));
-    this.audioRecordingService.getRecordedBlob().subscribe((data) => {
+    this.audioRecordingService.getRecordedBlob().subscribe(async(data) => {
       this.data = data;
       this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
         URL.createObjectURL(data.blob)
       );
       // console.log('=====', this.data.base64Data);
-      this.handleMessage();
+      await this.handleMessage();
     });
   }
 
@@ -83,7 +83,7 @@ export class BotComponent implements OnInit, AfterViewInit {
     this.disabled = true;
     // Api call and response from bot, replace loading text
     let index = this.botMessages.length;
-     let lang = await this.utils.getLanguage()
+     let lang = await this.utils.getLanguage()||'en'
      text=localStorage.getItem('text') ?? '';
     await this.botApiService.getBotMessage(text, audio, lang).subscribe({
       next: result => {
