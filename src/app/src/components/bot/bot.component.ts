@@ -194,6 +194,7 @@ export class BotComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.loginService.logout();
+    localStorage.clear();
   }
 
 
