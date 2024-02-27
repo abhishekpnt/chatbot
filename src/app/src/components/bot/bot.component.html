@@ -1,14 +1,17 @@
 <div class="main-container">
   
+<div class="header">
   <mat-form-field  appearance="fill" color="primary" class="w-100">
-    <mat-label>{{'selectYourLanguage'|translate}}</mat-label>
+    <!-- <mat-label>{{'selectYourLanguage'|translate}}</mat-label> -->
     <mat-select (selectionChange)="onLanguageChange()" [(ngModel)]="selectedLanguage">
         <mat-option value="en">English</mat-option>
         <mat-option value="kn">Kannada</mat-option>
     </mat-select>
-</mat-form-field>
-  <div class="power" (click)="logout()"> <img aria-hidden="true" class="power right icon" width="32px"
-      src="assets/icons/power.svg"></div>
+  </mat-form-field>
+  <div class="power-btn" (click)="logout()"> 
+    <img aria-hidden="true" width="30px" src="assets/icons/power.svg">
+  </div>
+</div>
 
   <div class="bot-content" #content *ngIf="botMessages.length > 0">
     <div *ngFor="let msg of botMessages; let i = index">

@@ -2,17 +2,54 @@
 body{
     margin: 0;
     font-size: large;
-    background-image: url(../src/assets/bg-image.jpg);
+    background-image: url(../src/assets/bg-image-3.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     overflow: hidden;
     height: 100vh;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-.bot-content::-webkit-scrollbar {
-    width: 0;               /* width of the entire scrollbar */
-  }
-  
  
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bot-content::-webkit-scrollbar {
+  width: 0; 
+}
+
+.header{
+  .mat-mdc-form-field-subscript-wrapper{
+    display: none;
+  }
+  .mat-mdc-form-field-infix{
+    min-height: 40px;
+    line-height: 40px;
+    padding: 0 !important;
+    width: 100px;
+  }
+  .mat-mdc-form-field{
+    box-shadow: 0.375rem 0.375rem 0.125rem 0 rgba(0,0,0,.1);
+    border-radius: 1.5rem;
+  }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled){
+    background: #fff;
+    border-radius: 1.5rem;
+  }
+  .mdc-line-ripple {
+    &::after, &::before{
+      border-bottom-width: 0px;
+    }
+  }
+  .mat-mdc-select-value, .mat-mdc-select-arrow {
+    color: #3f51b5;
+  }
+  .mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay{
+    opacity: 0 !important;
+  }
+}
+.mat-mdc-option.mdc-list-item{
+  min-height: 40px;
+}
+.mdc-menu-surface.mat-mdc-select-panel{
+  padding: 0 !important;
+}
