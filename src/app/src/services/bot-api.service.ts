@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BotApiService {
   private readonly host = 'https://dev.aiassistant.sunbird.org/all_bot/v1/';
-
+  apiUrl
   constructor(
     private http: HttpClient,
-    private sessionService: SessionService
   ) { }
 
   getBotMessage(text: string, audio: string, lang: any): Observable<any> {
@@ -30,12 +28,12 @@ export class BotApiService {
 
     if (localStorage.getItem('content_id')) {
       req.content_id = localStorage.getItem('content_id');
-      const apiUrl = this.host + 'submit_response';
-      return this.http.post<any>(apiUrl, req, { headers: this.getHeaders() });
+      this.apiUrl = this.host + 'submit_response';
     } else {
-      const apiUrl = this.host + 'get_content';
-      return this.http.post<any>(apiUrl, req, { headers: this.getHeaders() });
+      this.apiUrl = this.host + 'get_content';
     }
+    return this.http.post<any>(this.apiUrl, req, { headers: this.getHeaders() });
+
   }
 
   private getHeaders(): HttpHeaders {

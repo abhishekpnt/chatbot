@@ -55,6 +55,7 @@
             &.received {
                 background-color: lightseagreen;
                 border-radius: 2rem 2rem 2rem 0;
+                min-width: 3rem;
             }
 
             &.sent {
