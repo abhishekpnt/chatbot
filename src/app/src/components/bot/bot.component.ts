@@ -105,10 +105,10 @@ export class BotComponent implements OnInit, AfterViewInit {
             this.setBotResponse(data?.conversation?.audio, data.conversation?.text);
             setTimeout(() => {
               this.setBotResponse(data?.content?.audio, data.content?.text);
-            }, 3500)
             setTimeout(() => {
               this.scrollToBottom();
-            }, 500)
+            }, 100); // Adjust this delay as needed
+          }, 5000);
           } else {
             let textMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
             textMsg.message = data?.output?.text
