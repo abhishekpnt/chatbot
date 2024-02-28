@@ -6,6 +6,7 @@ import { BotApiService } from '../../services/bot-api.service';
 import { LoginService } from '../../services/login.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilService } from '../../services/util.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class BotComponent implements OnInit, AfterViewInit {
   @Output() botMessageEvent = new EventEmitter();
   @ViewChild('recordbtn', { read: ElementRef }) recordbtn: ElementRef | any;
   @ViewChild('content', { static: false }) content: ElementRef;
+  private recordedBlob$: Observable<any>;
 
   constructor(
     private audioRecordingService: AudioRecordingService, private botApiService: BotApiService,
@@ -42,23 +44,27 @@ export class BotComponent implements OnInit, AfterViewInit {
     this.botMessages = [
       { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'text', type: 'received', displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
 
-      this.utils.removeItem('content_id');
-      this.utils.removeItem('text');  }
+    this.utils.removeItem('content_id');
+    this.utils.removeItem('text');
+  }
 
   ngOnInit() {
     this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
-    this.selectedLanguage = this.utils.getLanguage()||'en';
+    this.selectedLanguage = this.utils.getLanguage() || 'en';
 
     this.audioRecordingService.recordingFailed().subscribe(() => (this.isRecording = false));
     this.audioRecordingService.getRecordedTime().subscribe((time) => (this.recordedTime = time));
-    this.audioRecordingService.getRecordedBlob().subscribe(async(data) => {
-      this.data = data;
-      this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(data.blob)
-      );
-      // console.log('=====', this.data.base64Data);
-      await this.handleMessage();
-    });
+    if (!this.recordedBlob$) {
+      this.recordedBlob$ = this.audioRecordingService.getRecordedBlob();
+      this.recordedBlob$.subscribe(async (data) => {
+        this.data = data;
+        this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
+          URL.createObjectURL(data.blob)
+        );
+        console.log('=====1');
+        await this.handleMessage();
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -83,27 +89,23 @@ export class BotComponent implements OnInit, AfterViewInit {
     this.disabled = true;
     // Api call and response from bot, replace loading text
     let index = this.botMessages.length;
-     let lang = await this.utils.getLanguage()||'en'
-     text=localStorage.getItem('text') ?? '';
+    let lang = await this.utils.getLanguage() || 'en'
+    text = localStorage.getItem('text') ?? '';
     await this.botApiService.getBotMessage(text, audio, lang).subscribe({
       next: result => {
         console.log('-----', result)
         this.botMessages = JSON.parse(JSON.stringify(this.botMessages));
-        if (result.output) {
+        // if (result.output) {
+        if (result.conversation && result.content) {
           let data = result;
-          this.utils.setItem('content_id',data.output.content_id);
-          this.utils.setItem('text',data.output.text);
-          if (data?.output?.audio!=="") {
-            let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
-            audioMsg.audio = { file: data.output?.audio, duration: '10', play: false }
-            audioMsg.messageType = 'audio';
-            audioMsg.displayMsg = data.output?.text
-            console.log('audio recieved', audioMsg.audio)
+          this.utils.setItem('content_id', data?.content?.content_id || '');
+          this.utils.setItem('text', data?.content?.text || '');
+          if (data?.conversation?.audio !== "" || data?.content?.audio !== "") {
             this.botMessages.pop();
-            this.botMessages.push(audioMsg);
-            this.playAudio(this.botMessages.length - 1)
-            console.log('array', this.botMessages)
-            this.scrollToBottom();
+            this.setBotResponse(data?.conversation?.audio, data.conversation?.text);
+            setTimeout(() => {
+              this.setBotResponse(data?.content?.audio, data.content?.text);
+            }, 3500)
             setTimeout(() => {
               this.scrollToBottom();
             }, 500)
@@ -136,7 +138,17 @@ export class BotComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  setBotResponse(audio, text) {
+    let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
+    audioMsg.audio = { file: audio, duration: '10', play: false }
+    audioMsg.messageType = 'audio';
+    audioMsg.displayMsg = text
+    console.log('audio recieved', audioMsg.audio)
+    this.botMessages.push(audioMsg);
+    this.playAudio(this.botMessages.length - 1)
+    console.log('array', this.botMessages)
+    this.scrollToBottom();
+  }
 
   startRecording() {
     if (!this.isRecording) {

@@ -18,13 +18,13 @@
       <div *ngIf="msg?.type !== ''" class="bot-content__message {{msg?.type}}" [ngClass]="i !==0 ? '': 'info-msg'">
         <div class="text_msg" *ngIf="msg?.messageType !== 'audio'">
           <div>{{msg?.displayMsg | translate }}</div>
-          <p class="time" *ngIf="msg?.time">{{msg?.time}}</p>
+          <!-- <p class="time" *ngIf="msg?.time">{{msg?.time}}</p> -->
         </div>
         <div class="audio_msg" *ngIf="msg?.messageType == 'audio'">
           <div><button class="speaker" (click)="playAudio(i)"> <img aria-hidden="true"
                 class="audio-record-mic right icon" width="32px" src="assets/icons/speaker.svg"></button></div>
           <div>{{msg?.displayMsg | translate }}</div>
-          <p class="time" *ngIf="msg?.time">{{msg?.time}}</p>
+          <!-- <p class="time" *ngIf="msg?.time">{{msg?.time}}</p> -->
         </div>
       </div>
     </div>
