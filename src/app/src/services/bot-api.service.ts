@@ -30,7 +30,7 @@ export class BotApiService {
       req.content_id = localStorage.getItem('content_id');
       this.apiUrl = this.host + 'submit_response';
     } else {
-      this.apiUrl = this.host + 'get_content';
+      this.apiUrl = this.host + 'learn_language';
     }
     return this.http.post<any>(this.apiUrl, req, { headers: this.getHeaders() });
 
