@@ -6,6 +6,7 @@ import { BotApiService } from '../../services/bot-api.service';
 import { LoginService } from '../../services/login.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilService } from '../../services/util.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
