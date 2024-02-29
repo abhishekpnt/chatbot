@@ -40,18 +40,9 @@
             .text_msg {
                 display: flex;
                 grid-gap: 12px;
-                margin-bottom: 1.2rem;
                 align-items: center;
             }
 
-            .time {
-                position: absolute;
-                bottom: 1rem;
-                right: 1rem;
-                margin: 0;
-                font-size: 14px;
-                letter-spacing: 0.031rem;
-            }
 
             &.received {
                 background-color: lightseagreen;
@@ -73,7 +64,7 @@
                 border-radius: 10px;
                 grid-gap: 0.5rem;
                 align-items: center;
-                margin-bottom: 0.8rem;
+                //margin-bottom: 0.8rem;
 
                 img {
                     width: 25px;
@@ -250,16 +241,6 @@
 
             &__message {
                 font-size: 14px;
-                .audio_msg{
-                    margin-bottom: 0.5rem;
-                }
-                .text_msg {
-                    margin-bottom: 1rem;
-                }
-    
-                .time {
-                    font-size: 0.688rem;
-                }
                 &.received {
                     border-radius: 1rem 1rem 1rem 0;
                 }
