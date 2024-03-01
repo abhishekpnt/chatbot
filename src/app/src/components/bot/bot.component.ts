@@ -26,7 +26,8 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
   blobUrl;
   data;
   selectedLanguage;
-  disabled = false;
+  disabled: boolean = false;
+
   audioRef!: HTMLAudioElement;
   ngZone: any;
   audio = new Audio();
@@ -43,13 +44,13 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer, private loginService: LoginService, private translate: TranslateService, public utils: UtilService
   ) {
     this.botMessages = [
-      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'text', type: 'received', displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
-
+      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240301-072835.mp3' }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
     this.utils.removeItem('content_id');
     this.utils.removeItem('text');
   }
 
   ngOnInit() {
+    this.disabled = false;
     this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
     this.selectedLanguage = this.utils.getLanguage() || 'en';
 
@@ -107,18 +108,10 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
             }, 100); // Adjust this delay as needed
           }, 5000);
         } else {
-          // let textMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
-          // textMsg.message = data?.output?.text
-          // textMsg.messageType = 'text';
-          // textMsg.displayMsg = data.output?.text
-          // console.log('text recieved', textMsg)
-          // this.botMessages.pop();
-          // this.botMessages.push(textMsg);
-          // console.log('array', this.botMessages)
           if (result?.conversation && !result?.content) {
             this.botMessages.pop();
             this.utils.setItem('content_id', result?.content?.content_id || '');
-            this.utils.setItem('text', result?.content?.text || '');  
+            this.utils.setItem('text', result?.content?.text || '');
             this.setBotResponse(result?.conversation?.audio, result?.conversation?.text);
           }
           if (result?.content && !result?.conversation) {
@@ -141,6 +134,9 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.scrollToBottom();
         }, 500)
+      },
+      complete: () => {
+        this.disabled = false;
       }
     });
   }

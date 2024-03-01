@@ -32,11 +32,11 @@
       <div class="bee-image">
         <img aria-hidden="true" class="" src="assets/bee-pic.png">
       </div>
-      <div #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
-        <button *ngIf="!isRecording" fill="clear" size="small" (pointerdown)="startRecording()">
+      <div  #recordbtn [ngClass]="startRecording ? 'cancel-div' : ''">
+        <button  *ngIf="!isRecording" [disabled]="disabled" [ngClass]="{'mic-btn-disabled': disabled}"  fill="clear" size="small" (pointerdown)="startRecording()">
           <img aria-hidden="true" class="audio-record-mic start" src="assets/icons/start-recording.svg">
         </button>
-        <button *ngIf="isRecording" fill="clear" size="small" (pointerdown)="stopRecording()">
+        <button  *ngIf="isRecording" [disabled]="disabled" [ngClass]="{'mic-btn-disabled': disabled}" fill="clear" size="small" (pointerdown)="stopRecording()">
           <div class="circle">
             <svg class="circle__spinner" viewBox="0 0 50 50">
               <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#93bfec" stroke-width="2"></circle>
