@@ -115,11 +115,13 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
           // this.botMessages.pop();
           // this.botMessages.push(textMsg);
           // console.log('array', this.botMessages)
-          if (result.conversation) {
+          if (result?.conversation && !result?.content) {
             this.botMessages.pop();
+            this.utils.setItem('content_id', result?.content?.content_id || '');
+            this.utils.setItem('text', result?.content?.text || '');  
             this.setBotResponse(result?.conversation?.audio, result?.conversation?.text);
           }
-          if (result.content) {
+          if (result?.content && !result?.conversation) {
             this.botMessages.pop();
             this.setBotResponse(result?.content?.audio, result.content?.text);
           }
