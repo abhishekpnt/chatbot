@@ -45,6 +45,7 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.botMessages = [
       { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240301-072835.mp3' }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
+      this.playAudio(this.botMessages.length - 1)
     this.utils.removeItem('content_id');
     this.utils.removeItem('text');
   }
@@ -100,9 +101,9 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
           this.utils.setItem('content_id', result?.content?.content_id || '');
           this.utils.setItem('text', result?.content?.text || '');
           this.botMessages.pop();
-          this.setBotResponse(result?.conversation?.audio, result?.conversation?.text);
+          this.setBotResponse(result?.conversation?.audio, result?.conversation?.text,'conversation');
           setTimeout(() => {
-            this.setBotResponse(result?.content?.audio, result.content?.text);
+            this.setBotResponse(result?.content?.audio, result.content?.text,'content');
             setTimeout(() => {
               this.scrollToBottom();
             }, 100); // Adjust this delay as needed
@@ -112,11 +113,11 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
             this.botMessages.pop();
             this.utils.setItem('content_id', result?.content?.content_id || '');
             this.utils.setItem('text', result?.content?.text || '');
-            this.setBotResponse(result?.conversation?.audio, result?.conversation?.text);
+            this.setBotResponse(result?.conversation?.audio, result?.conversation?.text, 'conversation');
           }
           if (result?.content && !result?.conversation) {
             this.botMessages.pop();
-            this.setBotResponse(result?.content?.audio, result.content?.text);
+            this.setBotResponse(result?.content?.audio, result.content?.text, 'content');
           }
           this.scrollToBottom();
           setTimeout(() => {
@@ -140,11 +141,12 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-  setBotResponse(audio, text) {
-    let audioMsg = { identifier: "", message: '', messageType: '', displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
+  setBotResponse(audio, text, type) {
+    let audioMsg = { identifier: "", message: '', messageType: '',contentId:false, displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
     audioMsg.audio = { file: audio, duration: '10', play: false }
     audioMsg.messageType = 'audio';
-    audioMsg.displayMsg = text
+    audioMsg.displayMsg = text;
+    audioMsg.contentId = type === "content" ? true : false
     console.log('audio recieved', audioMsg.audio)
     this.botMessages.push(audioMsg);
     this.playAudio(this.botMessages.length - 1)
