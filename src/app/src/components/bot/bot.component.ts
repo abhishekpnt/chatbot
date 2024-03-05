@@ -27,6 +27,7 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
   data;
   selectedLanguage;
   disabled: boolean = true;
+  
 
   audioRef!: HTMLAudioElement;
   ngZone: any;
@@ -44,14 +45,13 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer, private loginService: LoginService, private translate: TranslateService, public utils: UtilService
   ) {
     this.botMessages = [
-      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240301-072835.mp3' }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
+      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240305-105232.mp3' }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
     this.playAudio(this.botMessages.length - 1)
     this.utils.removeItem('content_id');
     this.utils.removeItem('text');
   }
 
   ngOnInit() {
-    // this.disabled = false;
     this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
     this.selectedLanguage = this.utils.getLanguage() || 'en';
 
@@ -224,7 +224,19 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   onLanguageChange() {
+    let base64Audio = '';
     this.utils.setLanguage(this.selectedLanguage)
     this.translate.use(this.utils.getLanguage());
+    if (this.selectedLanguage === 'kn') {
+      base64Audio = 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240305-105331.mp3'  //kn welcome msg audio
+    }
+    else {
+      base64Audio = 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240305-105232.mp3'
+    }
+    this.disabled = true;
+    this.botMessages = [
+      { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: base64Audio }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
+    this.playAudio(this.botMessages.length - 1)
+
   }
 }
