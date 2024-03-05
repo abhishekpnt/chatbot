@@ -26,7 +26,7 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
   blobUrl;
   data;
   selectedLanguage;
-  disabled: boolean = false;
+  disabled: boolean = true;
 
   audioRef!: HTMLAudioElement;
   ngZone: any;
@@ -45,13 +45,13 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.botMessages = [
       { identifier: "welcomeMessage", message: 'welcomeMessage', messageType: 'audio', type: 'received', audio: { file: '', duration: '', play: false, base64Data: 'https://ax2cel5zyviy.compat.objectstorage.ap-hyderabad-1.oraclecloud.com/sbdjb-kathaasaagara/audio-output-20240301-072835.mp3' }, displayMsg: "welcomeMessage", time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: '', readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }];
-      this.playAudio(this.botMessages.length - 1)
+    this.playAudio(this.botMessages.length - 1)
     this.utils.removeItem('content_id');
     this.utils.removeItem('text');
   }
 
   ngOnInit() {
-    this.disabled = false;
+    // this.disabled = false;
     this.translate.setDefaultLang(this.utils.getLanguage() || 'en');
     this.selectedLanguage = this.utils.getLanguage() || 'en';
 
@@ -101,9 +101,9 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
           this.utils.setItem('content_id', result?.content?.content_id || '');
           this.utils.setItem('text', result?.content?.text || '');
           this.botMessages.pop();
-          this.setBotResponse(result?.conversation?.audio, result?.conversation?.text,'conversation');
+          this.setBotResponse(result?.conversation?.audio, result?.conversation?.text, 'conversation');
           setTimeout(() => {
-            this.setBotResponse(result?.content?.audio, result.content?.text,'content');
+            this.setBotResponse(result?.content?.audio, result.content?.text, 'content');
             setTimeout(() => {
               this.scrollToBottom();
             }, 100); // Adjust this delay as needed
@@ -137,12 +137,12 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 500)
       },
       complete: () => {
-        this.disabled = false;
+        // this.disabled = false;
       }
     });
   }
   setBotResponse(audio, text, type) {
-    let audioMsg = { identifier: "", message: '', messageType: '',contentId:false, displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
+    let audioMsg = { identifier: "", message: '', messageType: '', contentId: false, displayMsg: "", audio: { file: '', duration: '', play: false }, type: 'received', time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), timeStamp: Date.now(), readMore: false, likeMsg: false, dislikeMsg: false, requestId: "" }
     audioMsg.audio = { file: audio, duration: '10', play: false }
     audioMsg.messageType = 'audio';
     audioMsg.displayMsg = text;
@@ -189,14 +189,17 @@ export class BotComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isPlaying = true;
       this.audio.addEventListener('ended', () => {
         this.isPlaying = false;
+        this.disabled = false;
       });
     } else {
       if (this.isPlaying) {
         this.audio.pause();
         this.isPlaying = false;
+        this.disabled = false;
       } else {
         this.audio.play();
         this.isPlaying = true;
+        this.disabled = true;
       }
     }
   }
